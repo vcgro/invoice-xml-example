@@ -1,0 +1,16 @@
+{
+    "preset": "laravel",
+    "ignore": {
+        "words": [
+            "dockerfile",
+            "favicon",
+            "filesystems",
+            "js",
+            "Makefile",
+            "php",
+            "phpcs",
+            "supervisord"
+        ],
+        "paths": []
+    }
+}

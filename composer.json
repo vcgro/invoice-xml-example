@@ -2,25 +2,33 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Laravel Dev Kit",
     "keywords": [
         "laravel",
         "framework"
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.0",
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.7",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
+        "laravel/telescope": "^5.11",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "peckphp/peck": "^0.1.3",
+        "pestphp/pest": "^3.8",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5.3",
+        "rector/rector": "^2.1",
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -54,14 +62,85 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
+
+        "install:telescope": [
+            "@php artisan telescope:install",
+            "mv \"$(find database/migrations -name '*_create_telescope_entries_table.php')\" database/migrations/0001_01_01_000003_create_telescope_entries_table.php"
+        ],
+
         "test": [
             "@php artisan config:clear --ansi",
-            "@php artisan test"
+            "@php artisan test --parallel"
+        ],
+        "test:feature": "@php artisan test --testsuite=Feature",
+        "test:unit": "@php artisan test --testsuite=Unit",
+        "test:arch": "@php artisan test --testsuite=Architecture",
+
+        "pint": "vendor/bin/pint",
+        "pint:check": "vendor/bin/pint --test",
+
+        "phpcbf": "vendor/bin/phpcbf",
+        "phpcs": "vendor/bin/phpcs",
+
+        "rector": "vendor/bin/rector process --clear-cache",
+        "rector:check": "vendor/bin/rector process --clear-cache --dry-run",
+
+        "peck": "vendor/bin/peck",
+        "phpstan": "vendor/bin/phpstan analyse --memory-limit=-1",
+
+        "quality-make": [
+            "@php -r \"echo 'Quality fix process started!\n';\"",
+            "@php -r \"echo '▶ Running Pint...\n';\"",
+            "composer pint",
+            "@php -r \"echo '▶ Running PHP Code Beautifier\n...\n';\"",
+            "composer phpcbf",
+            "@php -r \"echo '▶ Running Rector...\n';\"",
+            "composer rector",
+            "@php -r \"echo 'Quality fix process finished!\n';\""
+        ],
+        "quality-check": [
+            "@php -r \"echo 'Quality check process started!\n';\"",
+            "@php -r \"echo '▶ Running Peck...\n';\"",
+            "composer peck",
+            "@php -r \"echo '▶ Running architecture tests...\n';\"",
+            "composer test:arch",
+            "@php -r \"echo '▶ Running PHPStan...\n';\"",
+            "composer phpstan",
+            "@php -r \"echo '▶ Running PHP CodeSniffer...\n';\"",
+            "composer phpcs",
+            "@php -r \"echo '▶ Running Rector...\n';\"",
+            "composer rector:check",
+            "@php -r \"echo 'Quality check process finished!\n';\""
         ]
+    },
+    "scripts-descriptions": {
+        "install:telescope": "Install Laravel Telescope and rename its migration to a fixed timestamp",
+
+        "test": "Run all tests in parallel",
+        "test:feature": "Run PHPUnit feature tests",
+        "test:unit": "Run PHPUnit unit tests",
+        "test:arch": "Run Pest architectural tests",
+
+        "peck": "Check code for spelling errors using Peck",
+        "phpstan": "Check code quality using PHPStan with unlimited memory",
+
+        "pint": "Automatically fix code style issues using Laravel Pint",
+        "pint:check": "Check code style without making changes using Laravel Pint",
+
+        "phpcbf": "Automatically fix code style issues using PHP_CodeSniffer",
+        "phpcs": "Check code style without making changes using PHP_CodeSniffer",
+
+        "rector": "Apply automated code refactorings using Rector",
+        "rector:check": "Check code refactorings without applying using Rector",
+
+        "quality-make": "Run all automated code fixers",
+        "quality-check": "Run all code quality checks"
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
