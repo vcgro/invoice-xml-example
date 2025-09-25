@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Invoice;
 
 use App\Exceptions\StorageSaveException;
-use Exception;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -20,7 +19,7 @@ final readonly class InvoiceStorage
     }
 
     /**
-     * @throws Exception
+     * @throws StorageSaveException
      */
     public function forcePutOrFail(int $invoiceId, string $xml): void
     {
