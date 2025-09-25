@@ -3,13 +3,17 @@
     "ignore": {
         "words": [
             "dockerfile",
+            "dto",
             "favicon",
+            "filepath",
             "filesystems",
+            "filesystem",
             "js",
             "Makefile",
             "php",
             "phpcs",
-            "supervisord"
+            "supervisord",
+            "xpath"
         ],
         "paths": []
     }

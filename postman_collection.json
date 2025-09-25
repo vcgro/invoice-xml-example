@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "11d3d901-d650-496a-bd1a-62b388f5358d",
+		"name": "Webware",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16259433"
+	},
+	"item": [
+		{
+			"name": "Store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/invoices/create",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"invoices",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download XML",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/invoices/:id/:view",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"invoices",
+						":id",
+						":view"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						},
+						{
+							"key": "view",
+							"value": "xml"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost",
+			"type": "string"
+		}
+	]
+}
