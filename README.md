@@ -6,8 +6,8 @@ sail up
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
+composer quality-check
 composer test
-quality-check
 ```
 
 ## Notes
