@@ -11,14 +11,15 @@ composer test
 ```
 
 ## Notes
-- The example XML file contained an issue with the `OriginCountry` tag, which was manually corrected.
-- The `filepath` configuration was found to be unnecessary and has been moved to the configuration settings, as it is not modified.
-- The application architecture deviates from SOLID principles in some areas, while in others it implements more structure than necessary for a small application. A balance was chosen.
-- For tests API, you can use the posts collection located in the project root.
+- The example XML file had an issue with the `OriginCountry` tag, which was fixed manually.
+- The `filepath` setting is not needed and has been moved to configuration (but it is still stored fully in the database).
+- Some parts of the application do not fully follow SOLID principles; this was a conscious compromise to keep the app simple for a small project.
+- For API tests, use the [postman_collection.json](postman_collection.json).
 
 ## Future Improvements
-- Not all errors are formatted consistently, as implementing this would require creating a custom error handler.
-- Saving files and subsequently updating the database could be moved to a queue for asynchronous processing.
-- Logging of invalid data could be added for debugging purposes (currently, files are not saved if the corresponding database record is not created, to maintain consistency).
-- Pagination has not yet been implemented on the page listing all invoices.
-- Additional tests should be added; currently, only architectural tests have been implemented.
+- Error messages are not fully consistent because a custom error handler is not implemented yet.
+- Saving files and updating the database could be moved to a queue for asynchronous processing.
+- Logging invalid data could be added for debugging (currently, files are not saved if the database record is not created).
+- Pagination is not implemented on the invoices list page.
+- More tests should be added; currently, only architectural tests exist.
+- A cron job could be added to clean up old invoice files that no longer exist in the database.
