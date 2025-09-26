@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Actions\DownloadInvoiceAction;
+use App\Actions\GetAllInvoiceAction;
+use App\Actions\StoreInvoiceAction;
 use App\Exceptions\CustomValidationException;
 use App\Exceptions\StorageSaveException;
 use App\Exceptions\XmlParsingException;
 use App\Http\Resources\InvoiceCollectionResource;
 use App\Http\Resources\InvoiceCreateResource;
-use App\UseCases\Commands\DownloadInvoiceQuery;
-use App\UseCases\Commands\GetAllInvoiceQuery;
-use App\UseCases\Queries\StoreInvoiceCommand;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -24,9 +24,9 @@ final readonly class InvoiceController
      * List Invoices Endpoint.
      */
     public function index(
-        GetAllInvoiceQuery $getAllInvoiceQuery,
+        GetAllInvoiceAction $getAllInvoiceAction,
     ): InvoiceCollectionResource {
-        $invoices = $getAllInvoiceQuery->execute();
+        $invoices = $getAllInvoiceAction->execute();
 
         return new InvoiceCollectionResource($invoices);
     }
@@ -42,9 +42,9 @@ final readonly class InvoiceController
      */
     public function store(
         Request $request,
-        StoreInvoiceCommand $createInvoiceCommand,
+        StoreInvoiceAction $createInvoiceAction,
     ): InvoiceCreateResource {
-        $invoiceId = $createInvoiceCommand->execute($request->getContent());
+        $invoiceId = $createInvoiceAction->execute($request->getContent());
 
         return new InvoiceCreateResource($invoiceId);
     }
@@ -57,8 +57,8 @@ final readonly class InvoiceController
      */
     public function show(
         int $invoiceId,
-        DownloadInvoiceQuery $downloadInvoiceQuery,
+        DownloadInvoiceAction $downloadInvoiceAction,
     ): StreamedResponse {
-        return $downloadInvoiceQuery->execute($invoiceId);
+        return $downloadInvoiceAction->execute($invoiceId);
     }
 }
