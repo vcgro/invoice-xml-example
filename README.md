@@ -14,6 +14,7 @@ composer test
 - The example XML file had an issue with the `OriginCountry` tag, which was fixed manually.
 - The `filepath` setting is not needed and has been moved to configuration (but it is still stored fully in the database).
 - Some parts of the application do not fully follow SOLID principles; this was a conscious compromise to keep the app simple for a small project.
+- The routes have been prefixed with `/api` to avoid unnecessary complications with Laravel configuration.
 - For API tests, use the [postman_collection.json](postman_collection.json).
 
 ## Future Improvements
