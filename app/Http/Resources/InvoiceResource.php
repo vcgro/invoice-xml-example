@@ -23,13 +23,13 @@ final class InvoiceResource extends JsonResource
         return [
             'id' => $this->id,
             'created_at' => $this->created_at->toIso8601ZuluString(),
-            'metadata' => $this->whenLoaded('metadata', fn (): array => [
-                'invoice_number' => $this->metadata?->invoice_number,
-                'issue_date' => $this->metadata?->issue_date,
-                'supplier_id' => $this->metadata?->supplier_id,
-                'customer_id' => $this->metadata?->customer_id,
+            'metadata' => $this->whenLoaded('invoiceMetadata', fn (): array => [
+                'invoice_number' => $this->invoiceMetadata?->invoice_number,
+                'issue_date' => $this->invoiceMetadata?->issue_date,
+                'supplier_id' => $this->invoiceMetadata?->supplier_id,
+                'customer_id' => $this->invoiceMetadata?->customer_id,
                 // Do not cast decimals to float to avoid precision errors:
-                'payable_amount' => $this->metadata?->payable_amount,
+                'payable_amount' => $this->invoiceMetadata?->payable_amount,
             ]),
         ];
     }

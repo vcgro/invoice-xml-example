@@ -8,7 +8,8 @@ use App\Exceptions\StorageSaveException;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-final readonly class InvoiceStorage
+// TODO add final readonly
+class InvoiceStorage
 {
     private string $storage_path;
 

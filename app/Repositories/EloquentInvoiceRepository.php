@@ -46,7 +46,7 @@ final readonly class EloquentInvoiceRepository implements InvoiceRepositoryContr
     {
         return Invoice::query()
             ->when($withMetaData, function (Builder $builder): void {
-                $builder->with(['metadata']);
+                $builder->with(['invoiceMetadata']);
             })->get();
     }
 }

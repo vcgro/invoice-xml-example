@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Database\Factories\InvoiceFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -12,10 +14,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $id
  * @property ?int $filepath
  * @property Carbon $created_at
- * @property ?InvoiceMetadata $metadata
+ * @property ?InvoiceMetadata $invoiceMetadata
  */
 final class Invoice extends Model
 {
+    /** @use HasFactory<InvoiceFactory> */
+    use HasFactory;
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -27,7 +32,7 @@ final class Invoice extends Model
     ];
 
     /** @phpstan-ignore-next-line */
-    public function metadata(): HasOne
+    public function invoiceMetadata(): HasOne
     {
         return $this->hasOne(InvoiceMetadata::class);
     }

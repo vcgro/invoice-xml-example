@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Carbon\Carbon;
+use Database\Factories\InvoiceMetadataFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,6 +20,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class InvoiceMetadata extends Model
 {
+    /** @use HasFactory<InvoiceMetadataFactory> */
+    use HasFactory;
+
     public $timestamps = false;
 
     protected $fillable = [
