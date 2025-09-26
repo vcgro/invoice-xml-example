@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Queries;
+namespace App\Actions;
 
 use App\Dto\InvoiceCreateDto;
 use App\Exceptions\CustomValidationException;
@@ -14,7 +14,7 @@ use App\Services\Invoice\InvoiceValidator;
 use App\Services\Invoice\InvoiceXmlParser;
 use Illuminate\Validation\ValidationException;
 
-final readonly class StoreInvoiceCommand
+final readonly class StoreInvoiceAction
 {
     public function __construct(
         private InvoiceStorage $invoiceStorage,

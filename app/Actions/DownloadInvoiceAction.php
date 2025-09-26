@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Commands;
+namespace App\Actions;
 
 use App\Services\Invoice\InvoiceStorage;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-final readonly class DownloadInvoiceQuery
+final readonly class DownloadInvoiceAction
 {
     public function __construct(
         private InvoiceStorage $invoiceStorage,

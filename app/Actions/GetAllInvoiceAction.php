@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Commands;
+namespace App\Actions;
 
 use App\Models\Invoice;
 use App\Repositories\Contracts\InvoiceRepositoryContract;
 use Illuminate\Database\Eloquent\Collection;
 
-final readonly class GetAllInvoiceQuery
+final readonly class GetAllInvoiceAction
 {
     public function __construct(
         private InvoiceRepositoryContract $invoiceRepository
