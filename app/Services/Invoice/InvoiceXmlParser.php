@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Invoice;
 
-use App\Exceptions\XmlParsingException;
+use App\Exceptions\InvoiceParsingException;
+use App\Services\Invoice\Contracts\InvoiceParserContract;
 use Dom\Node;
 use Dom\XMLDocument;
 use Dom\XPath;
 use Throwable;
 
-final class InvoiceXmlParser
+final class InvoiceXmlParser implements InvoiceParserContract
 {
     private ?XMLDocument $document = null;
 
     /**
-     * @throws XmlParsingException
+     * @throws InvoiceParsingException
      */
     public function loadData(string $data): self
     {
@@ -23,14 +24,14 @@ final class InvoiceXmlParser
             $this->document = XMLDocument::createFromString($data);
             $this->document->formatOutput = true;
         } catch (Throwable) {
-            throw new XmlParsingException();
+            throw new InvoiceParsingException();
         }
 
         return $this;
     }
 
     /**
-     * @throws XmlParsingException
+     * @throws InvoiceParsingException
      */
     public function toXml(): string
     {
@@ -42,18 +43,18 @@ final class InvoiceXmlParser
             }
         }
 
-        throw new XmlParsingException();
+        throw new InvoiceParsingException();
     }
 
     /**
      * @return array<string, string|null>
      *
-     * @throws XmlParsingException
+     * @throws InvoiceParsingException
      */
     public function toArray(): array
     {
         if (! $this->document instanceof XMLDocument) {
-            throw new XmlParsingException();
+            throw new InvoiceParsingException();
         }
 
         $xpath = new XPath($this->document);

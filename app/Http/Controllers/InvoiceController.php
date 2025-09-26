@@ -9,7 +9,7 @@ use App\Actions\GetAllInvoiceAction;
 use App\Actions\StoreInvoiceAction;
 use App\Exceptions\CustomValidationException;
 use App\Exceptions\StorageSaveException;
-use App\Exceptions\XmlParsingException;
+use App\Exceptions\InvoiceParsingException;
 use App\Http\Resources\InvoiceCollectionResource;
 use App\Http\Resources\InvoiceCreateResource;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -37,7 +37,7 @@ final readonly class InvoiceController
      *
      * @throws CustomValidationException
      * @throws StorageSaveException
-     * @throws XmlParsingException
+     * @throws InvoiceParsingException
      * @throws ValidationException
      */
     public function store(

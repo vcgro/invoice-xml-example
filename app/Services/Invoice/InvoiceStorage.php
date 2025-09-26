@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace App\Services\Invoice;
 
 use App\Exceptions\StorageSaveException;
+use App\Services\Invoice\Contracts\InvoiceStorageContract;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-// TODO add final readonly
-class InvoiceStorage
+final readonly class InvoiceStorage implements InvoiceStorageContract
 {
+    private Filesystem $disk;
+
     private string $storage_path;
 
-    public function __construct(
-        private Filesystem $disk,
-    ) {
+    public function __construct()
+    {
+        $this->disk = Storage::disk((string) config('invoices.storage_disk'));
         $this->storage_path = (string) config('invoices.storage_path');
     }
 

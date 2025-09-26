@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Services\Invoice;
 
 use App\Exceptions\CustomValidationException;
+use App\Services\Invoice\Contracts\InvoiceValidatorContract;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-final readonly class InvoiceValidator
+final readonly class InvoiceValidator implements InvoiceValidatorContract
 {
     /**
      * @param array<string, string|null> $data

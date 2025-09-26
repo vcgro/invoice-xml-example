@@ -6,8 +6,12 @@ namespace App\Providers;
 
 use App\Repositories\Contracts\InvoiceRepositoryContract;
 use App\Repositories\EloquentInvoiceRepository;
+use App\Services\Invoice\Contracts\InvoiceParserContract;
+use App\Services\Invoice\Contracts\InvoiceStorageContract;
+use App\Services\Invoice\Contracts\InvoiceValidatorContract;
 use App\Services\Invoice\InvoiceStorage;
-use Illuminate\Support\Facades\Storage;
+use App\Services\Invoice\InvoiceValidator;
+use App\Services\Invoice\InvoiceXmlParser;
 use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
@@ -17,14 +21,9 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->singleton(function (): InvoiceStorage {
-            $disk = (string) config('invoices.storage_disk');
-
-            return new InvoiceStorage(
-                Storage::disk($disk)
-            );
-        });
-
+        $this->app->bind(InvoiceStorageContract::class, InvoiceStorage::class);
+        $this->app->bind(InvoiceValidatorContract::class, InvoiceValidator::class);
         $this->app->bind(InvoiceRepositoryContract::class, EloquentInvoiceRepository::class);
+        $this->app->bind(InvoiceParserContract::class, InvoiceXmlParser::class);
     }
 }

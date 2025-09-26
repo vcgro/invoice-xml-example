@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Actions;
 
-use App\Services\Invoice\InvoiceStorage;
+use App\Services\Invoice\Contracts\InvoiceStorageContract;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final readonly class DownloadInvoiceAction
 {
     public function __construct(
-        private InvoiceStorage $invoiceStorage,
+        private InvoiceStorageContract $invoiceStorage,
     ) {
     }
 

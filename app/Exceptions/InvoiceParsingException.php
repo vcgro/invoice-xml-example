@@ -6,7 +6,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-final class XmlParsingException extends Exception
+final class InvoiceParsingException extends Exception
 {
     public function __construct()
     {

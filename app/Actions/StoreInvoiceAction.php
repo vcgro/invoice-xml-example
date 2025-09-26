@@ -7,19 +7,19 @@ namespace App\Actions;
 use App\Dto\InvoiceCreateDto;
 use App\Exceptions\CustomValidationException;
 use App\Exceptions\StorageSaveException;
-use App\Exceptions\XmlParsingException;
+use App\Exceptions\InvoiceParsingException;
 use App\Repositories\Contracts\InvoiceRepositoryContract;
-use App\Services\Invoice\InvoiceStorage;
-use App\Services\Invoice\InvoiceValidator;
-use App\Services\Invoice\InvoiceXmlParser;
+use App\Services\Invoice\Contracts\InvoiceParserContract;
+use App\Services\Invoice\Contracts\InvoiceStorageContract;
+use App\Services\Invoice\Contracts\InvoiceValidatorContract;
 use Illuminate\Validation\ValidationException;
 
 final readonly class StoreInvoiceAction
 {
     public function __construct(
-        private InvoiceStorage $invoiceStorage,
-        private InvoiceXmlParser $invoiceXmlParser,
-        private InvoiceValidator $invoiceValidator,
+        private InvoiceStorageContract $invoiceStorage,
+        private InvoiceParserContract $invoiceXmlParser,
+        private InvoiceValidatorContract $invoiceValidator,
         private InvoiceRepositoryContract $invoiceRepository,
     ) {
     }
@@ -31,7 +31,7 @@ final readonly class StoreInvoiceAction
      * to asynchronous processing via a queue.
      *
      * @throws CustomValidationException
-     * @throws XmlParsingException
+     * @throws InvoiceParsingException
      * @throws ValidationException
      * @throws StorageSaveException
      */

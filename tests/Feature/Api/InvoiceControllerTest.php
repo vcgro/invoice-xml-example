@@ -7,7 +7,7 @@ namespace Feature\Api;
 use App\Models\Invoice;
 use App\Models\InvoiceMetadata;
 use App\Repositories\Contracts\InvoiceRepositoryContract;
-use App\Services\Invoice\InvoiceStorage;
+use App\Services\Invoice\Contracts\InvoiceStorageContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery\MockInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -67,7 +67,7 @@ final class InvoiceControllerTest extends TestCase
     {
         $invoiceId = 1;
 
-        $this->mock(InvoiceStorage::class, function (MockInterface $mock) use ($invoiceId): void {
+        $this->mock(InvoiceStorageContract::class, function (MockInterface $mock) use ($invoiceId): void {
             $mock->shouldReceive('fileExists')
                 ->with($invoiceId)
                 ->andReturn(true);
@@ -101,7 +101,7 @@ final class InvoiceControllerTest extends TestCase
     {
         $xml = file_get_contents(base_path('tests/Stubs/invoice_create_request.xml'));
 
-        $this->mock(InvoiceStorage::class, function (MockInterface $mock): void {
+        $this->mock(InvoiceStorageContract::class, function (MockInterface $mock): void {
             $mock->shouldReceive('getInvoiceFilepath')
                 ->andReturn('test_path');
 
@@ -131,7 +131,7 @@ final class InvoiceControllerTest extends TestCase
             $mock->shouldNotReceive('createWithMetadata');
         });
 
-        $this->mock(InvoiceStorage::class, function (MockInterface $mock): void {
+        $this->mock(InvoiceStorageContract::class, function (MockInterface $mock): void {
             $mock->shouldNotReceive('forcePutOrFail');
         });
 
