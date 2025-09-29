@@ -14,8 +14,6 @@ use Override;
  */
 final class InvoiceCreateResource extends JsonResource
 {
-    public static $wrap = '';
-
     /**
      * @return array<string, int|string>
      */
@@ -24,7 +22,6 @@ final class InvoiceCreateResource extends JsonResource
     {
         return [
             'id' => (int) $this->resource,
-            'message' => 'Invoice saved successfully',
         ];
     }
 }

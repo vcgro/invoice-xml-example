@@ -6,12 +6,16 @@ namespace App\Http\Controllers;
 
 use App\Actions\DownloadInvoiceAction;
 use App\Actions\GetAllInvoiceAction;
+use App\Actions\GetInvoiceAction;
 use App\Actions\StoreInvoiceAction;
 use App\Exceptions\CustomValidationException;
 use App\Exceptions\StorageSaveException;
 use App\Exceptions\InvoiceParsingException;
+use App\Http\Requests\InvoiceShowRequest;
 use App\Http\Resources\InvoiceCollectionResource;
 use App\Http\Resources\InvoiceCreateResource;
+use App\Http\Resources\InvoiceResource;
+use App\Models\Invoice;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -19,10 +23,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final readonly class InvoiceController
 {
-    /**
-     * Route: GET /api/invoices/get
-     * List Invoices Endpoint.
-     */
     public function index(
         GetAllInvoiceAction $getAllInvoiceAction,
     ): InvoiceCollectionResource {
@@ -32,9 +32,6 @@ final readonly class InvoiceController
     }
 
     /**
-     * Route: POST /api/invoices/create
-     * Create Invoice Endpoint.
-     *
      * @throws CustomValidationException
      * @throws StorageSaveException
      * @throws InvoiceParsingException
@@ -49,15 +46,21 @@ final readonly class InvoiceController
         return new InvoiceCreateResource($invoiceId);
     }
 
+    public function show(
+        GetInvoiceAction $getInvoiceAction,
+        int $invoiceId
+    ): InvoiceResource {
+        $invoice = $getInvoiceAction->execute($invoiceId);
+
+        return new InvoiceResource($invoice);
+    }
+
     /**
-     * Route: GET /api/invoices/{invoice_id}/xml
-     * Get Invoice XML Endpoint.
-     *
      * @throws FileNotFoundException
      */
-    public function show(
-        int $invoiceId,
+    public function download(
         DownloadInvoiceAction $downloadInvoiceAction,
+        int $invoiceId
     ): StreamedResponse {
         return $downloadInvoiceAction->execute($invoiceId);
     }

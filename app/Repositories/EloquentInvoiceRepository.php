@@ -10,6 +10,7 @@ use App\Models\InvoiceMetadata;
 use App\Repositories\Contracts\InvoiceRepositoryContract;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 final readonly class EloquentInvoiceRepository implements InvoiceRepositoryContract
@@ -40,6 +41,15 @@ final readonly class EloquentInvoiceRepository implements InvoiceRepositoryContr
             ->update([
                 'filepath' => $filepath,
             ]);
+    }
+
+    /**
+     * @throws ModelNotFoundException
+     */
+    public function findOrFail(int $invoiceId): Invoice
+    {
+        return Invoice::query()
+            ->findOrFail($invoiceId);
     }
 
     public function getAll(bool $withMetaData = false): Collection

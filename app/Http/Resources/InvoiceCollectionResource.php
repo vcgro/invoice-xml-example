@@ -8,7 +8,5 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 final class InvoiceCollectionResource extends ResourceCollection
 {
-    public static $wrap = 'invoices';
-
     public $collects = InvoiceResource::class;
 }

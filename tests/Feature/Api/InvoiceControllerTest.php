@@ -20,10 +20,10 @@ final class InvoiceControllerTest extends TestCase
 
     public function test_invoice_index_page_returns_a_successful_empty_response(): void
     {
-        $response = $this->get('/api/invoices/get');
+        $response = $this->get('/api/invoices');
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['invoices' => []]);
+            ->assertJsonStructure(['data' => []]);
     }
 
     public function test_invoice_index_page_returns_a_successful_response(): void
@@ -34,12 +34,12 @@ final class InvoiceControllerTest extends TestCase
             ->count(3)
             ->create();
 
-        $response = $this->get('/api/invoices/get');
+        $response = $this->get('/api/invoices');
 
         $response->assertStatus(200)
-            ->assertJsonCount(3, 'invoices')
+            ->assertJsonCount(3, 'data')
             ->assertJsonStructure([
-                'invoices' => [
+                'data' => [
                     '*' => [
                         'id',
                         'created_at',
@@ -55,12 +55,31 @@ final class InvoiceControllerTest extends TestCase
             ]);
     }
 
+    public function test_invoice_show_page_returns_a_not_found_response(): void
+    {
+        $response = $this->get('/api/invoices/1');
+
+        $response->assertStatus(404);
+    }
+
     public function test_invoice_show_page_returns_a_successful_response(): void
     {
-        $response = $this->get('/api/invoices/get');
+        $invoiceId = Invoice::factory()
+            ->has(InvoiceMetadata::factory())
+            ->withFilepath()
+            ->count(1)
+            ->create();
+
+        $response = $this->get('/api/invoices/' . $invoiceId->first()->id);
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['invoices' => []]);
+            ->assertJsonCount(2, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'created_at',
+                ],
+            ]);
     }
 
     public function test_invoice_show_returns_streamed_response_when_file_exists(): void
@@ -113,7 +132,7 @@ final class InvoiceControllerTest extends TestCase
 
         $response = $this->call(
             'POST',
-            '/api/invoices/create',
+            '/api/invoices',
             [],
             [],
             [],
@@ -122,7 +141,12 @@ final class InvoiceControllerTest extends TestCase
         );
 
         $response->assertStatus(200)
-            ->assertJsonStructure(['id', 'message']);
+            ->assertJsonCount(1, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                ],
+            ]);
     }
 
     public function test_invoice_create_returns_a_xml_parsing_error(): void
@@ -136,7 +160,7 @@ final class InvoiceControllerTest extends TestCase
         });
 
         $response = $this->post(
-            '/api/invoices/create',
+            '/api/invoices',
             [],
             ['Content-Type' => 'application/xml'],
         );

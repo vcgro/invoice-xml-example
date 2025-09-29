@@ -24,4 +24,6 @@ interface InvoiceRepositoryContract
      * @return Collection<int, Invoice>
      */
     public function getAll(bool $withMetaData = false): Collection;
+
+    public function findOrFail(int $invoiceId): Invoice;
 }

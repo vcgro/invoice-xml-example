@@ -21,14 +21,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/api/invoices/create",
+					"raw": "{{baseUrl}}/api/invoices",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
-						"invoices",
-						"create"
+						"invoices"
 					]
 				}
 			},
@@ -65,19 +64,43 @@
 			"response": []
 		},
 		{
-			"name": "List",
+			"name": "Show",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/api/invoices/get",
+					"raw": "{{baseUrl}}/api/invoices/:id",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"api",
 						"invoices",
-						"get"
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/invoices",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"invoices"
 					]
 				}
 			},
