@@ -70,7 +70,7 @@ final class InvoiceControllerTest extends TestCase
             ->count(1)
             ->create();
 
-        $response = $this->get('/api/invoices/' . $invoiceId->first()->id);
+        $response = $this->get('/api/invoices/' . $invoiceId->first()?->id);
 
         $response->assertStatus(200)
             ->assertJsonCount(2, 'data')
@@ -87,10 +87,12 @@ final class InvoiceControllerTest extends TestCase
         $invoiceId = 1;
 
         $this->mock(InvoiceStorageContract::class, function (MockInterface $mock) use ($invoiceId): void {
+            /** @phpstan-ignore-next-line */
             $mock->shouldReceive('fileExists')
                 ->with($invoiceId)
                 ->andReturn(true);
 
+            /** @phpstan-ignore-next-line */
             $mock->shouldReceive('download')
                 ->once()
                 ->with($invoiceId)
@@ -118,12 +120,14 @@ final class InvoiceControllerTest extends TestCase
 
     public function test_invoice_create_returns_a_successful_response(): void
     {
-        $xml = file_get_contents(base_path('tests/Stubs/invoice_create_request.xml'));
+        $xml = (string) file_get_contents(base_path('tests/Stubs/invoice_create_request.xml'));
 
         $this->mock(InvoiceStorageContract::class, function (MockInterface $mock): void {
+            /** @phpstan-ignore-next-line */
             $mock->shouldReceive('getInvoiceFilepath')
                 ->andReturn('test_path');
 
+            /** @phpstan-ignore-next-line */
             $mock->shouldReceive('forcePutOrFail')
                 ->once()
                 ->withAnyArgs()

@@ -19,6 +19,8 @@ interface InvoiceParserContract
     public function toXml(): string;
 
     /**
+     * @return array<string, string|null>
+     *
      * @throws InvoiceParsingException
      */
     public function toArray(): array;

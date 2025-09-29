@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property int $id
- * @property ?int $filepath
+ * @property ?string $filepath
  * @property Carbon $created_at
  * @property ?InvoiceMetadata $invoiceMetadata
  */

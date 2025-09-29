@@ -8,7 +8,11 @@ arch('Debug functions forbidden')
 
 arch('Laravel preset')
     ->preset()
-    ->laravel();
+    ->laravel()
+    ->ignoring(
+        // for ignoring custom method
+        [\App\Http\Controllers\InvoiceController::class]
+    );
 
 arch('PHP preset')
     ->preset()
